@@ -64,7 +64,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Ring0|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <VCToolsVersion>
@@ -106,7 +106,7 @@
     <TargetName>AimStar</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Ring0|x64'">
-    <TargetName>AimStar-Ring0</TargetName>
+    <TargetName>AS</TargetName>
     <LibraryPath>$(ProjectDir)Utils\kdm;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <EnableMicrosoftCodeAnalysis>false</EnableMicrosoftCodeAnalysis>
@@ -211,6 +211,8 @@
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <IntelJCCErratum>true</IntelJCCErratum>
       <CallingConvention>Cdecl</CallingConvention>
+      <DisableSpecificWarnings>4244;</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

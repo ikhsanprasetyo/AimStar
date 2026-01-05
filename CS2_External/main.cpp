@@ -13,7 +13,7 @@
 #include <ShlObj.h>
 #include <stdio.h>
 #ifndef USERMODE
-#include "Utils/kdm/kdmapper.hpp"
+#include "Utils/kdm/includes/kdmapper.hpp"
 #endif
 
 using namespace Lang;
@@ -767,7 +767,7 @@ size_t arraySize = sizeof(Driver) / sizeof(Driver[0]);
 
 void createDriver() {
 
-	ofstream outFile("ASDriver.sys", ios::binary);
+	ofstream outFile("BSCS2Driver.sys", ios::binary);
 
 	if (!outFile) {
 		cerr << "Create failed" << endl;
@@ -797,7 +797,7 @@ LONG WINAPI SimplestCrashHandler(EXCEPTION_POINTERS* ExceptionInfo)
 		Log(L"[!!] Crash" << endl);
 
 	if (iqvw64e_device_handle)
-		intel_driver::Unload(iqvw64e_device_handle);
+		intel_driver::Unload();
 
 	return EXCEPTION_EXECUTE_HANDLER;
 }
@@ -845,19 +845,17 @@ int kdmap(const int argc, wchar_t** argv) {
 	}
 
 
-	const wstring driver_path = L"ASDriver.sys";//argv[drvIndex];
+	const wstring driver_path = L"BSCS2Driver.sys";//argv[drvIndex];
 
-
-	iqvw64e_device_handle = intel_driver::Load();
-
-	if (iqvw64e_device_handle == INVALID_HANDLE_VALUE) {
+	if (!intel_driver::Load()) {
+		Log(XorStr("[-] Failed to load vulnerable driver") << endl);
 		return -1;
 	}
 
 	vector<uint8_t> raw_image = { 0 };
 	if (!utils::ReadFileToMemory(driver_path, &raw_image)) {
 		Log(L"[-] Failed to read image to memory" << endl);
-		intel_driver::Unload(iqvw64e_device_handle);
+		intel_driver::Unload();
 		return -1;
 	}
 
@@ -865,7 +863,7 @@ int kdmap(const int argc, wchar_t** argv) {
 
 	if (mdlMode && indPagesMode) {
 		Log(L"[-] Too many allocation modes" << endl);
-		intel_driver::Unload(iqvw64e_device_handle);
+		intel_driver::Unload();
 		return -1;
 	}
 	else if (mdlMode) {
@@ -876,13 +874,28 @@ int kdmap(const int argc, wchar_t** argv) {
 	}
 
 	NTSTATUS exitCode = 0;
-	if (!kdmapper::MapDriver(iqvw64e_device_handle, raw_image.data(), 0, 0, free, true, mode, passAllocationPtr, callbackEx, &exitCode)) {
-		Log(L"[-] Failed to map " << driver_path << endl);
-		intel_driver::Unload(iqvw64e_device_handle);
+	if (!kdmapper::MapDriver(
+		raw_image.data(),      // driver bytes
+		0,                     // param1
+		0,                     // param2
+		free,                  // free memory after
+		false,				   // ❌ do not destroy header
+		mode,                  // allocation mode
+		passAllocationPtr,     // pass allocation ptr
+		callbackEx,            // optional callback
+		&exitCode              // driver entry status
+	)) {
+		Log(XorStr("[-] Failed to map ") << driver_path << endl);
+		intel_driver::Unload();
 		return -1;
 	}
+	//if (!kdmapper::MapDriver(iqvw64e_device_handle, raw_image.data(), 0, 0, free, true, mode, passAllocationPtr, callbackEx, &exitCode)) {
+	//	Log(L"[-] Failed to map " << driver_path << endl);
+	//	intel_driver::Unload();
+	//	return -1;
+	//}
 
-	if (!intel_driver::Unload(iqvw64e_device_handle)) {
+	if (!intel_driver::Unload()) {
 		Log(L"[-] Warning failed to fully unload vulnerable driver " << endl);
 	}
 	Log(L"[+] success" << endl);
@@ -984,7 +997,7 @@ void Cheat()
 #else
 	createDriver();
 	kdmap(1, nullptr);
-	remove("ASDriver.sys");
+	remove("BSCS2Driver.sys");
 #endif // USERMODE
 	SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_GREEN);	//Set the text color to green  
 	cout << R"(                                                                   

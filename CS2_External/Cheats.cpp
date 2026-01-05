@@ -154,8 +154,8 @@ void Cheats::Run() noexcept
 	}
 	if (MenuConfig::DRM && BruteD< 64)
 	{
-		Gui.OpenWebpage(XorStr("https://www.gov.cn/guoqing/2023-03/10/content_5745919.htm"));//绕过国服检测机制
-		Gui.OpenWebpage(XorStr("https://www.bilibili.com/video/BV12j411v7R7/"));
+		//Gui.OpenWebpage(XorStr("https://www.gov.cn/guoqing/2023-03/10/content_5745919.htm"));//绕过国服检测机制
+		//Gui.OpenWebpage(XorStr("https://www.bilibili.com/video/BV12j411v7R7/"));
 		SignatureMutation();
 		BruteD++;
 	}	

@@ -54,7 +54,7 @@ private:
 public:
 	auto initdriver(int processid) -> void
 	{
-		_driver_handle = CreateFileA("\\\\.\\AimStarDriver", GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr); //get a handle to our driver
+		_driver_handle = CreateFileA("\\\\.\\BSCS2Driver", GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr); //get a handle to our driver
 		if (_driver_handle != INVALID_HANDLE_VALUE)
 		{
 			_processid = processid;
