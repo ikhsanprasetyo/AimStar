@@ -1005,6 +1005,9 @@ void Cheat()
 	cout << XorStr("Press [HOME] to show or hide Console.") << endl;
 	cout << XorStr("Have fun...") << endl << endl;
 	SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED);
+	cout << XorStr("=======[ Address List ]=======") << endl;
+	cout << setw(23) << left << XorStr("client:") << setiosflags(ios::uppercase) << hex << gGame.GetClientDLLAddress()<< endl;
+	cout << setw(23) << left << XorStr("server:") << setiosflags(ios::uppercase) << hex << gGame.GetServerDLLAddress() << endl;
 	cout << XorStr("=======[ Offset List ]=======") << endl;
 	cout << setw(23) << left << XorStr("EntityList:") << setiosflags(ios::uppercase) << hex << Offset::EntityList << endl;
 	cout << setw(23) << left << XorStr("Matrix:") << setiosflags(ios::uppercase) << hex << Offset::Matrix << endl;
