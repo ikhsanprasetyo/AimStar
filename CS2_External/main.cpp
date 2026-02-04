@@ -1006,8 +1006,15 @@ void Cheat()
 	cout << XorStr("Have fun...") << endl << endl;
 	SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED);
 	cout << XorStr("=======[ Address List ]=======") << endl;
-	cout << setw(23) << left << XorStr("client:") << setiosflags(ios::uppercase) << hex << gGame.GetClientDLLAddress()<< endl;
-	cout << setw(23) << left << XorStr("server:") << setiosflags(ios::uppercase) << hex << gGame.GetServerDLLAddress() << endl;
+	cout << setw(23) << left << XorStr("Client:") << setiosflags(ios::uppercase) << hex << gGame.GetClientDLLAddress()<< endl;
+	cout << setw(23) << left << XorStr("Server:") << setiosflags(ios::uppercase) << hex << gGame.GetServerDLLAddress() << endl;
+	cout << setw(23) << left << XorStr("LocalPawn:") << setiosflags(ios::uppercase) << hex << gGame.GetLocalPawnAddress() << endl;
+	cout << setw(23) << left << XorStr("LocalController:") << setiosflags(ios::uppercase) << hex << gGame.GetLocalControllerAddress() << endl;
+	cout << setw(23) << left << XorStr("EntityList:") << setiosflags(ios::uppercase) << hex << gGame.GetEntityListAddress() << endl;
+	cout << setw(23) << left << XorStr("EntityListEntry:") << setiosflags(ios::uppercase) << hex << gGame.GetEntityListEntry() << endl;
+	cout << setw(23) << left << XorStr("ViewAngle:") << setiosflags(ios::uppercase) << hex << gGame.GetViewAngleAddress() << endl;
+	cout << setw(23) << left << XorStr("ViewMatrix:") << setiosflags(ios::uppercase) << hex << gGame.GetMatrixAddress() << endl;
+	cout << setw(23) << left << XorStr("CSGOInput:") << setiosflags(ios::uppercase) << hex << gGame.GetCSGOInputAddress() << endl;
 	cout << XorStr("=======[ Offset List ]=======") << endl;
 	cout << setw(23) << left << XorStr("EntityList:") << setiosflags(ios::uppercase) << hex << Offset::EntityList << endl;
 	cout << setw(23) << left << XorStr("Matrix:") << setiosflags(ios::uppercase) << hex << Offset::Matrix << endl;
